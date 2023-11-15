@@ -134,7 +134,7 @@ app.put("/trigger-device", function(req, res) {
     .then(updatedEntry => {
         if (updatedEntry) {
         console.log('Entry updated successfully:', updatedEntry);
-        res.redirect("/");
+        res.send("ok");
         } else {
         console.log('Entry not found.');
         }
