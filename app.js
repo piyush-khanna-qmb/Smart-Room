@@ -19,6 +19,29 @@ app.get("/", function(req, res) {
     res.send("Maamla sahi hai!")
 })
 
+const getDeviceStateString = async () => {
+    try {
+      const devices = await Device.find({}, 'state');
+      const stateString = devices.map(device => (device.state ? '1' : '0')).join('');
+      console.log('Device State String:', stateString);
+      return stateString;
+    } catch (error) {
+      console.error('Error fetching devices:', error);
+      throw error;
+    }
+  };
+
+app.get("/get-all-devices-status", async function (req, res) {
+    console.log("Request to get devices status from: "+req.hostname);   
+    try {
+        let stt = await getDeviceStateString();
+        res.send(String(stt));
+    } catch (error) {
+        console.error('Error in processing request:', error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
 app.post("/valueSent", function(req, res) {
     console.log("New value recieved from: "+req.hostname);
     var val= req.body.value;
@@ -32,23 +55,49 @@ app.post("/valueSent", function(req, res) {
     }
 })
 
-app.get("/add-new-device", function(req, res) {
-    console.log("Ready to recieve new device data");
-    // let thisName= prompt("Enter new device's name")
+app.post("/add-new-device", function(req, res) {
+    let data= req.body;
+    let deviceName= data.name;
+    console.log("Request to add a new device: "+deviceName);
+
     const naya= new Device({
-        name: "fan",
+        name: deviceName,
         state: 0
     });
     naya.save()
     .then(function (models) {
         if(models) {
+            console.log("Added Successfully!");
             console.log(models);
-            console.log("Light add kar di hai");
             res.redirect("/");
         }
     })
     .catch( function (err) {
         console.log(err);
+    });
+})
+
+app.put("/trigger-device", function(req, res) {
+    var data= req.body;
+    var deviceName= data.name;
+    var stateRequest= data.state;
+
+    console.log("Request to trigger device: "+deviceName+", to state: "+stateRequest);
+    Device.findOneAndUpdate(
+        { name: deviceName },
+        { name: deviceName, state: stateRequest },
+        { new: true }
+      )
+    .then(updatedEntry => {
+        if (updatedEntry) {
+        console.log('Entry updated successfully:', updatedEntry);
+        res.redirect("/");
+        } else {
+        console.log('Entry not found.');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating entry:', error);
     });
 })
 
