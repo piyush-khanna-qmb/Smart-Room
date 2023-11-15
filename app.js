@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express= require('express')
 const app= express()
 const bodyParser= require("body-parser")
@@ -5,7 +6,11 @@ const mongoose= require('mongoose')
 const prompt = require("prompt-sync")();
 
 app.use(bodyParser.json())
-mongoose.connect("mongodb://127.0.0.1:27017/roomDB")
+mongoose
+.connect(process.env.DATABASE)
+.then(() => {
+    console.log("Database Connected");
+});
 
 const deviceSchema= mongoose.Schema({
     name: String,
@@ -17,6 +22,26 @@ const Device= mongoose.model("Device", deviceSchema)
 app.get("/", function(req, res) {
     console.log("Home request initiated");
     res.send("Maamla sahi hai!")
+})
+
+const getAllEntities = async () => {
+    try {
+      const allEntities = await Device.find({});
+      return allEntities;
+    } catch (error) {
+      console.error('Error fetching entities:', error);
+      throw error;
+    }
+  };
+
+app.get("/get-all-devices", function (req, res) {
+    getAllEntities().then(entities => {
+        console.log('All Entities:', entities);
+        res.send(entities)
+      })
+    .catch(function (err) {
+        res.redirect("/");
+    });
 })
 
 const getDeviceStateString = async () => {
@@ -45,14 +70,32 @@ app.get("/get-all-devices-status", async function (req, res) {
 app.post("/valueSent", function(req, res) {
     console.log("New value recieved from: "+req.hostname);
     var val= req.body.value;
+    var deviceName= "test"
     console.log(req.body);
-    if(val == 1) {
+    if(val == true) {
         console.log("Turn that light ON baby");
-        res.send("Light ON")
+        // res.send("Light ON")
     } else {
         console.log("Turn that shit off");
-        res.send("Light turned off")
+        // res.send("Light turned off")
     }
+    Device.findOneAndUpdate(
+        { name: deviceName },
+        { name: deviceName, state: val },
+        { new: true }
+      )
+    .then(updatedEntry => {
+        if (updatedEntry) {
+        console.log('Entry updated successfully:', updatedEntry);
+        } else {
+        console.log('Entry not found.');
+        }
+        res.redirect("/");
+    })
+    .catch(error => {
+        console.error('Error updating entry:', error);
+    });
+    
 })
 
 app.post("/add-new-device", function(req, res) {
@@ -101,6 +144,7 @@ app.put("/trigger-device", function(req, res) {
     });
 })
 
-app.listen(8080, function () { 
-    console.log("Server listening at port 8080");
+const PORT= process.env.PORT||8080;
+app.listen(PORT, function () { 
+    console.log(`Server listening at port ${PORT}`);
  });
