@@ -144,6 +144,34 @@ app.put("/trigger-device", function(req, res) {
     });
 })
 
+const shutdownAllEntities = async () => {
+    try {
+      const devicesToUpdate = await Device.find({ state: { $ne: false } }); // Find devices with state not equal to false
+  
+      const updatePromises = devicesToUpdate.map(device => {
+        device.state = false;
+        return device.save();
+      });
+  
+      await Promise.all(updatePromises);
+  
+      console.log('Shutdown completed successfully.');
+    } catch (error) {
+      console.error('Error during shutdown:', error);
+      throw error;
+    }
+  };
+  
+  // Route to trigger the shutdown
+app.get('/entire-shutdown', async (req, res) => {
+try {
+    await shutdownAllEntities();
+    res.send('Shutdown successful.');
+} catch (error) {
+    res.status(500).send('Internal Server Error');
+}
+});
+  
 const PORT= process.env.PORT||8080;
 app.listen(PORT, function () { 
     console.log(`Server listening at port ${PORT}`);
