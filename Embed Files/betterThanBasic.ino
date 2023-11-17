@@ -6,14 +6,15 @@ const char *ssid = "TECNO SPARK Go 2020";
 const char *password = "12345678";
 String serverName = "https://long-yaks-invite.loca.lt/";
 
-int inputPins[8]= {4, 15, 13, 12, 14, 27, 33, 32};
-int outputPins[8]= {18, 19, 21, 22, 23, 25, 26, 17};
-String names[8]= {"fan", "tubelight", "tabletop", "nightbulb", "laser", "bluelight", "extension", "test"};
-bool lastOffline[8];
-bool currOffline[8];
-bool lastOnline[8];
-bool currOnline[8];
-int workMode= 1; 
+int inputPins[7]= {4, 15, 13, 12, 14, 27, 33};
+int outputPins[7]= {18, 19, 21, 22, 23, 25, 26};
+String names[7]= {"fan", "tubelight", "tabletop", "nightbulb", "laser", "bluelight", "extension"};
+bool lastOffline[7];
+bool currOffline[7];
+bool lastOnline[7];
+bool currOnline[7];
+int workMode= 1;
+int statusPin= 2, netPin= 32;
 
 void connectToWiFi() {
   Serial.println("Attempting to connect to WiFi...");
@@ -28,32 +29,39 @@ void connectToWiFi() {
   // Try to connect for up to 5 seconds
   unsigned long startTime = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - startTime < 5000) {
+    digitalWrite(statusPin, HIGH);
     delay(500);
+    digitalWrite(statusPin, LOW);
     Serial.print(".");
+    delay(500);
   }
 
   if (WiFi.status() == WL_CONNECTED) {
     Serial.println("\nWiFi connected successfully!");
     workMode = 1;
+    digitalWrite(statusPin, HIGH);
   } else {
     Serial.println("\nFailed to connect to WiFi within 5 seconds.");
     workMode = 0;
+    digitalWrite(statusPin, LOW);
   }
 }
 
 void setup()
 {
   Serial.begin(115200);
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
     pinMode(inputPins[i], INPUT_PULLUP);
 
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
     pinMode(outputPins[i], OUTPUT);
 
+  pinMode(statusPin, OUTPUT);
+  pinMode(netPin, INPUT_PULLUP);
   WiFi.begin(ssid, password);
   connectToWiFi();
 
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
   {
     lastOffline[i]= false;
     currOffline[i]= false;
@@ -65,7 +73,13 @@ void setup()
 
 void loop()
 {
-  connectToWiFi();
+  if(digitalRead(netPin) == HIGH)
+  {
+    workMode= 0;
+    digitalWrite(statusPin, LOW);
+  }
+  else
+    connectToWiFi();
   if (workMode == 0) 
   {
     bool offChange= updateOfflineStates();
@@ -124,7 +138,7 @@ String getStatusString()
 
 void implementOffline()
 {
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
   {
     digitalWrite(outputPins[i], currOffline[i]);
   }
@@ -132,7 +146,7 @@ void implementOffline()
 
 void implementOnline()
 {
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
   {
     digitalWrite(outputPins[i], currOnline[i]);
   }
@@ -141,10 +155,10 @@ void implementOnline()
 bool updateOnlineStates(String st)
 {
   bool changed= false;
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
     lastOnline[i]= currOnline[i];
     
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
   {
     char c= st.charAt(i);
     if(c == '0')
@@ -166,10 +180,10 @@ bool updateOnlineStates(String st)
 bool updateOfflineStates()
 {
   bool changed= false;
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
     lastOffline[i]= currOffline[i];
 
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
   {
     if(digitalRead(inputPins[i]) == HIGH)
     {
@@ -212,7 +226,7 @@ void makeInitialRequest()
 
 void triggerDevices()
 {
-  for(int i= 0; i<8; i++)
+  for(int i= 0; i<7; i++)
   {
     if(lastOffline[i] != currOffline[i])
     {
