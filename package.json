@@ -16,5 +16,8 @@
     "mongoose": "^8.0.0",
     "nodemon": "^3.0.1",
     "prompt-sync": "^4.2.0"
+  },
+  "engines": {
+    "node": "14.17.3"
   }
 }
