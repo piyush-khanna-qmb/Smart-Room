@@ -20,7 +20,7 @@ const deviceSchema= mongoose.Schema({
 const Device= mongoose.model("Device", deviceSchema)
 
 app.get("/", function(req, res) {
-    console.log("Home request initiated");
+    // console.log("Home request initiated");
     res.send("Maamla sahi hai!")
 })
 
@@ -29,14 +29,14 @@ const getAllEntities = async () => {
       const allEntities = await Device.find({});
       return allEntities;
     } catch (error) {
-      console.error('Error fetching entities:', error);
+      // console.error('Error fetching entities:', error);
       throw error;
     }
   };
 
 app.get("/get-all-devices", function (req, res) {
     getAllEntities().then(entities => {
-        console.log('All Entities:', entities);
+        // console.log('All Entities:', entities);
         res.send(entities)
       })
     .catch(function (err) {
@@ -48,35 +48,35 @@ const getDeviceStateString = async () => {
     try {
       const devices = await Device.find({}, 'state');
       const stateString = devices.map(device => (device.state ? '1' : '0')).join('');
-      console.log('Device State String:', stateString);
+      // console.log('Device State String:', stateString);
       return stateString;
     } catch (error) {
-      console.error('Error fetching devices:', error);
+      // console.error('Error fetching devices:', error);
       throw error;
     }
   };
 
 app.get("/get-all-devices-status", async function (req, res) {
-    console.log("Request to get devices status from: "+req.hostname);   
+    // console.log("Request to get devices status from: "+req.hostname);   
     try {
         let stt = await getDeviceStateString();
         res.send(String(stt));
     } catch (error) {
-        console.error('Error in processing request:', error);
+        // console.error('Error in processing request:', error);
         res.status(500).send('Internal Server Error');
     }
 })
 
 app.post("/valueSent", function(req, res) {
-    console.log("New value recieved from: "+req.hostname);
+    // console.log("New value recieved from: "+req.hostname);
     var val= req.body.value;
     var deviceName= "test"
-    console.log(req.body);
+    // console.log(req.body);
     if(val == true) {
-        console.log("Turn that light ON baby");
+        // console.log("Turn that light ON baby");
         // res.send("Light ON")
     } else {
-        console.log("Turn that shit off");
+        // console.log("Turn that thing off");
         // res.send("Light turned off")
     }
     Device.findOneAndUpdate(
@@ -86,14 +86,14 @@ app.post("/valueSent", function(req, res) {
       )
     .then(updatedEntry => {
         if (updatedEntry) {
-        console.log('Entry updated successfully:', updatedEntry);
+        // console.log('Entry updated successfully:', updatedEntry);
         } else {
-        console.log('Entry not found.');
+        // console.log('Entry not found.');
         }
         res.redirect("/");
     })
     .catch(error => {
-        console.error('Error updating entry:', error);
+        // console.error('Error updating entry:', error);
     });
     
 })
@@ -101,7 +101,7 @@ app.post("/valueSent", function(req, res) {
 app.post("/add-new-device", function(req, res) {
     let data= req.body;
     let deviceName= data.name;
-    console.log("Request to add a new device: "+deviceName);
+    // console.log("Request to add a new device: "+deviceName);
 
     const naya= new Device({
         name: deviceName,
@@ -110,13 +110,13 @@ app.post("/add-new-device", function(req, res) {
     naya.save()
     .then(function (models) {
         if(models) {
-            console.log("Added Successfully!");
-            console.log(models);
+            // console.log("Added Successfully!");
+            // console.log(models);
             res.redirect("/");
         }
     })
     .catch( function (err) {
-        console.log(err);
+        // console.log(err);
     });
 })
 
@@ -125,7 +125,7 @@ app.put("/trigger-device", function(req, res) {
     var deviceName= data.name;
     var stateRequest= data.state;
 
-    console.log("Request to trigger device: "+deviceName+", to state: "+stateRequest);
+    // console.log("Request to trigger device: "+deviceName+", to state: "+stateRequest);
     Device.findOneAndUpdate(
         { name: deviceName },
         { name: deviceName, state: stateRequest },
@@ -133,14 +133,14 @@ app.put("/trigger-device", function(req, res) {
       )
     .then(updatedEntry => {
         if (updatedEntry) {
-        console.log('Entry updated successfully:', updatedEntry);
+        // console.log('Entry updated successfully:', updatedEntry);
         res.send("ok");
         } else {
-        console.log('Entry not found.');
+        // console.log('Entry not found.');
         }
     })
     .catch(error => {
-        console.error('Error updating entry:', error);
+        // console.error('Error updating entry:', error);
     });
 })
 
@@ -155,9 +155,9 @@ const shutdownAllEntities = async () => {
   
       await Promise.all(updatePromises);
   
-      console.log('Shutdown completed successfully.');
+      // console.log('Shutdown completed successfully.');
     } catch (error) {
-      console.error('Error during shutdown:', error);
+      // console.error('Error during shutdown:', error);
       throw error;
     }
   };
