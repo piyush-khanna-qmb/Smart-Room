@@ -124,9 +124,8 @@ app.put("/trigger-device", function(req, res) {
     var data= req.body;
     var deviceName= data.name;
     var stateRequest= data.state;
-    console.log("New trigger request: "+data);
 
-    // console.log("Request to trigger device: "+deviceName+", to state: "+stateRequest);
+    console.log("Request to trigger device: "+deviceName+", to state: "+stateRequest);
     Device.findOneAndUpdate(
         { name: deviceName },
         { name: deviceName, state: stateRequest },
