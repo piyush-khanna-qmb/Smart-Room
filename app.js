@@ -123,7 +123,9 @@ app.post("/add-new-device", function(req, res) {
 app.post("/intrusion-alert", function(req, res) {
   var data= req.body;
   var timeOfIntrusion= data.source;
-  console.log("Someone intruded in the territory at: "+timeOfIntrusion);
+  const options = { timeZone: 'Asia/Kolkata', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' };
+  const currentTime = new Date().toLocaleTimeString('en-IN', options);
+  console.log("Someone intruded in the territory of: "+timeOfIntrusion+ "at: "+currentTime);
   res.send("ok");
 })
 
