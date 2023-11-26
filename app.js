@@ -120,6 +120,13 @@ app.post("/add-new-device", function(req, res) {
     });
 })
 
+app.post("/intrusion-alert", function(req, res) {
+  var data= req.body;
+  var timeOfIntrusion= data.time;
+  console.log("Someone intruded in the territory at: "+timeOfIntrusion);
+  res.send("ok");
+})
+
 app.put("/trigger-device", function(req, res) {
     var data= req.body;
     var deviceName= data.name;
