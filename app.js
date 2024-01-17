@@ -161,15 +161,27 @@ app.put("/triggerThroughString", async function(req, res) {
     
     const devices = await Device.find();
     const objects = devices;
-    console.log(objects.length);
     if(data.length == objects.length)
     {
       for (let i = 0; i < data.length; i++) {
-          const state = data[i] === '1';
-          Device.updateOne({ name: objects[i].name }, { $set: { state } });
+          const state = data[i] == '1';
+          Device.findOneAndUpdate(
+            { name: objects[i].name },
+            { name: objects[i].name, state: state },
+            { new: true }
+          )
+          .then(updatedEntry => {
+              if (updatedEntry) {
+              // console.log('Entry updated successfully:', updatedEntry);
+              res.send("ok");
+              } else {
+              // console.log('Entry not found.');
+              }
+          })
+          .catch(error => {
+              // console.error('Error updating entry:', error);
+          });
       }
-
-      console.log('Names printed successfully.');
     }
     
   } catch (error) {
