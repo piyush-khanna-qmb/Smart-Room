@@ -153,6 +153,31 @@ app.put("/trigger-device", function(req, res) {
     });
 })
 
+app.put("/triggerThroughString", async function(req, res) {
+
+  var data= req.body.newStates;
+  var ind= 0;
+  try {
+    
+    const devices = await Device.find();
+    const objects = devices;
+    console.log(objects.length);
+    if(data.length == objects.length)
+    {
+      for (let i = 0; i < data.length; i++) {
+          const state = data[i] === '1';
+          Device.updateOne({ name: objects[i].name }, { $set: { state } });
+      }
+
+      console.log('Names printed successfully.');
+    }
+    
+  } catch (error) {
+    console.error('Error fetching and printing names:', error);
+  }
+  res.send("ok");
+})
+
 const shutdownAllEntities = async () => {
     try {
       const devicesToUpdate = await Device.find({ state: { $ne: false } }); // Find devices with state not equal to false
