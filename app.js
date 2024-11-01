@@ -25,7 +25,7 @@ app.get("/", function(req, res) {
 })
 
 app.get("/getWifis", function (req, res) {
-    return res.status(200).json({ssids: ["vivo 1820", "AirFiber-R6JMuy"], passwords: ["khannaHotpot", "3sCtsd4nyySfch7H"]});
+    return res.status(200).json({ssids: ["AirFiber-R6JMuy", "vivo 1820"], passwords: ["3sCtsd4nyySfch7H", "khannaHotpot"]});
 })
 
 const getAllEntities = async () => {
