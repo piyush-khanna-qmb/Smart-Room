@@ -24,6 +24,10 @@ app.get("/", function(req, res) {
     res.send("Maamla sahi hai!")
 })
 
+app.get("/getWifis", function (req, res) {
+    return res.status(200).json({ssids: ["vivo 1820", "AirFiber-R6JMuy"], passwords: ["khannaHotpot", "3sCtsd4nyySfch7H"]});
+})
+
 const getAllEntities = async () => {
     try {
       const allEntities = await Device.find({});
