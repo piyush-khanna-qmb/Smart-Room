@@ -6,6 +6,9 @@ const mongoose= require('mongoose')
 const prompt = require("prompt-sync")();
 
 app.use(bodyParser.json())
+app.set('view engine', 'ejs')
+app.use(express.static(__dirname + '/views'));
+
 mongoose
 .connect(process.env.DATABASE)
 .then(() => {
@@ -21,7 +24,8 @@ const Device= mongoose.model("Device", deviceSchema)
 
 app.get("/", function(req, res) {
     // console.log("Home request initiated");
-    res.send("Maamla sahi hai!")
+    // res.send("Maamla sahi hai!")
+    res.render("index.ejs")
 })
 
 app.get("/getWifis", function (req, res) {
