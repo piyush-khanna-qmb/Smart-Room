@@ -173,60 +173,56 @@
               
             <h4>Blue Light</h4>
         </button>
+        
         <button>
-            <div class="power-switch fan">
-                <input type="checkbox" />
+            <div class="speaker">
+              <label class="speaker-switch">
+                <input type="checkbox">
                 <div class="button">
-                  <svg class="power-off">
-                    <use xlink:href="#line" class="line" />
-                    <use xlink:href="#circle" class="circle" />
-                  </svg>
-                  <svg class="power-on">
-                    <use xlink:href="#line" class="line" />
-                    <use xlink:href="#circle" class="circle" />
-                  </svg>
+                  <div class="speaker-details"></div>
+                  <div class="speaker-cone"></div>
+                  <div class="speaker-lines">
+                    <div class="speaker-line"></div>
+                    <div class="speaker-line"></div>
+                    <div class="speaker-line"></div>
+                  </div>
+                  <div class="wave-container">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                  </div>
+                </div>
+              </label>
+              
+            <!-- <h4>Speak</h4> -->
+        </button>
+
+        <button>
+          <label class="mic-switch">
+            <input type="checkbox">
+              <div class="button">
+                <div class="mic-shape">
+                  <div class="mic-head"></div>
+                  <div class="mic-body"></div>
+                </div>
+                <svg class="mic-icon" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                  <line x1="12" y1="19" x2="12" y2="23"></line>
+                  <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+                <div class="wave-container">
+                  <div class="wave"></div>
+                  <div class="wave"></div>
+                  <div class="wave"></div>
                 </div>
               </div>
-              
-              <!-- SVG -->
-              <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="line">
-                  <line x1="75" y1="34" x2="75" y2="58"/>
-                </symbol>
-                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="circle">
-                  <circle cx="75" cy="80" r="35"/>
-                </symbol>
-              </svg>
-              
-            <h4>Fan</h4>
-        </button>
-        <button>
-            <div class="power-switch speaker">
-                <input type="checkbox" />
-                <div class="button">
-                  <svg class="power-off">
-                    <use xlink:href="#line" class="line" />
-                    <use xlink:href="#circle" class="circle" />
-                  </svg>
-                  <svg class="power-on">
-                    <use xlink:href="#line" class="line" />
-                    <use xlink:href="#circle" class="circle" />
-                  </svg>
-                </div>
-              </div>
-              
-              <!-- SVG -->
-              <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="line">
-                  <line x1="75" y1="34" x2="75" y2="58"/>
-                </symbol>
-                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="circle">
-                  <circle cx="75" cy="80" r="35"/>
-                </symbol>
-              </svg>
-              
-            <h4>Speak</h4>
-        </button>
+            </input>
+          </label>
+      </button>
+      <video id="backgroundVideo" class="video-background" autoplay muted loop>
+        <source id="videoSource" src="ai1.mp4" type="video/mp4">
+      </video>
     </div>
 
     <script src="/script.js"></script>

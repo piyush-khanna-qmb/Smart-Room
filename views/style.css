@@ -296,3 +296,298 @@ body {
       padding: 8vh 3vh;
   }
 } */
+
+
+.mic-switch {
+  --color-invert: #ffffff;
+  --color-glow: #ffeb3b;
+  --width: 100px;    
+  --height: 180px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--width);
+  height: var(--height);
+}
+
+.mic-switch .button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mic-switch .button:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  background: radial-gradient(circle closest-side, var(--color-glow), transparent);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 1s ease, transform 1s ease;
+  transform: perspective(1px) translateZ(0);
+  backface-visibility: hidden;
+}
+
+.mic-switch .mic-icon {
+  height: 80%;
+  width: 80%;
+  position: absolute;
+  z-index: 1;
+  fill: none;
+  stroke: var(--color-invert);
+  stroke-width: 6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.wave-container {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.wave {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 4px solid var(--color-glow);
+  border-radius: 50%;
+  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+@keyframes waveAnimation {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+.mic-switch input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.mic-switch input:checked + .button:after {
+  opacity: 0.15;
+  transform: scale(1.1) perspective(1px) translateZ(0);
+  backface-visibility: hidden;
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.mic-switch input:checked + .button .mic-icon {
+  opacity: 1;
+  filter: drop-shadow(0px 0px 8px var(--color-glow));
+}
+
+.mic-switch input:checked + .button .wave-container {
+  display: block;
+}
+
+.mic-switch input:checked + .button .wave-container .wave:nth-child(1) {
+  animation: waveAnimation 2s infinite linear;
+}
+
+.mic-switch input:checked + .button .wave-container .wave:nth-child(2) {
+  animation: waveAnimation 2s infinite linear 0.5s;
+}
+
+.mic-switch input:checked + .button .wave-container .wave:nth-child(3) {
+  animation: waveAnimation 2s infinite linear 1s;
+}
+
+/* Custom microphone shape */
+.mic-shape {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.mic-head {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 40px 40px 0 0;
+}
+
+.mic-body {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4; /* Adjust transparency */
+  z-index: -1; /* Place video behind other content */
+}
+
+
+.speaker-switch {
+  --color-invert: #ffffff;
+  --color-glow: #ffeb3b;
+  --width: 180px;    
+  --height: 180px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--width);
+  height: var(--height);
+}
+
+.speaker-switch .button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  clip-path: path('M40 40 L80 40 L130 10 L130 170 L80 140 L40 140 Z');
+  background:#5c5c6466;
+}
+
+.speaker-switch .button:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle closest-side, var(--color-invert), transparent);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 1s ease, transform 1s ease;
+  transform: perspective(1px) translateZ(0);
+  backface-visibility: hidden;
+}
+
+@keyframes spwaveAnimation {
+  0% {
+    transform: scaleX(0.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+.speaker-switch input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.speaker-switch input:checked + .button {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.speaker-switch input:checked + .button:after {
+  opacity: 0.15;
+  transform: scale(1.2) perspective(1px) translateZ(0);
+  backface-visibility: hidden;
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.speaker-switch input:checked + .button .wave-container {
+  display: block;
+}
+
+.speaker-switch input:checked + .button .wave-container .wave:nth-child(1) {
+  animation: waveAnimation 1.5s infinite ease-out;
+}
+
+.speaker-switch input:checked + .button .wave-container .wave:nth-child(2) {
+  animation: waveAnimation 1.5s infinite ease-out 0.2s;
+}
+
+.speaker-switch input:checked + .button .wave-container .wave:nth-child(3) {
+  animation: waveAnimation 1.5s infinite ease-out 0.4s;
+}
+
+/* Speaker details */
+.speaker-details {
+  position: absolute;
+  left: 40px;
+  width: 40px;
+  height: 100px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.speaker-cone {
+  position: absolute;
+  right: 50px;
+  width: 50px;
+  height: 100px;
+  border-left: 4px solid #5c5c65;
+  border-radius: 0 100% 100% 0;
+  transition: all 0.3s ease;
+}
+
+.speaker-lines {
+  position: absolute;
+  left: 90px;
+  width: 20px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.speaker-line {
+  width: 100%;
+  height: 4px;
+  background: #5c5c64;
+  transition: all 0.3s ease;
+}
+
+.speaker-switch input:checked + .button .speaker-details,
+.speaker-switch input:checked + .button .speaker-cone,
+.speaker-switch input:checked + .button .speaker-line {
+  border-color: var(--color-glow);
+  background-color: var(--color-glow);
+  filter: drop-shadow(0px 0px 8px var(--color-glow));
+}

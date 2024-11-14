@@ -104,19 +104,18 @@ function processSpeak() {
   speechSynthesis.speak(utterance);
 }
 
-// Function to attach event listener to a button
 function attachEventListener(button) {
   button.addEventListener('change', () => {
     const deviceName = button.parentElement.classList[1];
     const toState = button.checked ? true : false;
     const stateSpeak = button.checked ? "on" : "off";
 
-    // Don't trigger device update for speaker button
+
     if (deviceName !== 'speaker') {
       triggerDevice(deviceName, toState);
     }
     
-    // Handle speak functionality
+
     if (deviceName === 'speaker') {
       // If speaker is turned off, clear the queue
       if (!toState) {
@@ -130,7 +129,6 @@ function attachEventListener(button) {
   });
 }
 
-// Initialize event listeners
 function initializeEventListeners() {
   const buttons = document.querySelectorAll('.power-switch input[type="checkbox"]');
   buttons.forEach(button => {
@@ -138,9 +136,29 @@ function initializeEventListeners() {
   });
 }
 
-// Initial fetch and setup
+
 fetchAndUpdateStates();
 initializeEventListeners();
 
-// Set up polling every 5 seconds
 const pollingInterval = setInterval(fetchAndUpdateStates, 5000);
+
+function setVideoSource() {
+  const videoElement = document.getElementById("backgroundVideo");
+  const sourceElement = document.getElementById("videoSource");
+
+  // Check screen width and set video source accordingly
+  if (window.innerWidth < 768) {
+    sourceElement.src = "ai bg.mp4"; // Video for small screens
+  } else {
+    sourceElement.src = "ai1.mp4"; // Video for large screens
+  }
+
+  // Reload the video to apply the new source
+  videoElement.load();
+}
+
+// Run on initial load
+setVideoSource();
+
+// Listen for window resize to update video source dynamically
+window.addEventListener("resize", setVideoSource);
