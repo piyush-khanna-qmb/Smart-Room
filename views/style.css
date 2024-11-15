@@ -3,37 +3,6 @@
   src: url(Lastica.ttf);
 }
 
-h1 {
-  color: aliceblue;
-  font-family: Lastica;
-  position: absolute;
-  top: 6vh;
-  text-align: center;
-  text-shadow: 0 0 3px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #0589ff, 0 0 70px #0589ff, 0 0 80px #0589ff, 0 0 100px #0589ff, 0 0 150px #0589ff;
-}
-
-body {
-  background: #1B1A23;
-  padding: 0;
-  margin: 0;
-  min-height: 100vh;
-  font: 400 16px 'Poppins', sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.button-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 1fr));
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-  margin: 20vh auto;
-  width: 90%;
-  max-width: 1200px;
-}
 
 /* Rest of your existing CSS animations and styles remain the same */
 
@@ -86,6 +55,7 @@ body {
     margin: 20vh 10vw; /* Set top and bottom margin to 20% of viewport height and left and right margin to 10% of viewport width */
     max-width: 80vw; /* Set maximum width of grid container to 80% of viewport width */
     max-height: 60vh; 
+    margin-bottom: 10vh;
 }
 .button-grid button {
     margin-top: 0;
@@ -590,4 +560,30 @@ body {
   border-color: var(--color-glow);
   background-color: var(--color-glow);
   filter: drop-shadow(0px 0px 8px var(--color-glow));
+}
+
+
+/* ========================== Speech TextBox ============================= */
+
+.glassy-textbox {
+  width: 700px;
+  min-height: 50px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  color: #333;
+  font-size: 1.2em;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+/* Hover effect for interactivity */
+.glassy-textbox:hover {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.2);
 }
