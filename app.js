@@ -198,6 +198,27 @@ app.put("/triggerThroughString", async function(req, res) {
   res.send("ok");
 })
 
+app.put('/sync-device-states', async (req, res) => {
+  try {
+    const states = req.body.states;
+    const devices = await Device.find();
+    
+    const updatePromises = devices.map((device, index) => {
+      return Device.findOneAndUpdate(
+        { name: device.name },
+        { state: states[index] === '1' },
+        { new: true }
+      );
+    });
+
+    await Promise.all(updatePromises);
+    res.send('Sync successful');
+  } catch (error) {
+    console.error('Error during sync:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 const shutdownAllEntities = async () => {
     try {
       const devicesToUpdate = await Device.find({ state: { $ne: false } }); // Find devices with state not equal to false
