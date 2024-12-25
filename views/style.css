@@ -17,6 +17,17 @@ h1 {
     position: absolute;
     top: 6vh;
     text-shadow: 0 0 3px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #0589ff, 0 0 70px #0589ff, 0 0 80px #0589ff, 0 0 100px #0589ff, 0 0 150px #0589ff;
+    color: aliceblue;
+    font-family: Lastica;
+    position: fixed;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 90%;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    text-shadow: 0 0 3px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #0589ff, 0 0 70px #0589ff, 0 0 80px #0589ff, 0 0 100px #0589ff, 0 0 150px #0589ff;
+    z-index: 10;
 }
 body {
     background: #1B1A23;
@@ -28,6 +39,16 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: #1B1A23;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    font: 400 16px 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
     .socials {
       position: fixed;
       display: block;
@@ -55,7 +76,7 @@ body {
     margin: 20vh 10vw; /* Set top and bottom margin to 20% of viewport height and left and right margin to 10% of viewport width */
     max-width: 80vw; /* Set maximum width of grid container to 80% of viewport width */
     max-height: 60vh; 
-    margin-bottom: 10vh;
+    margin-bottom: 7vh;
 }
 .button-grid button {
     margin-top: 0;
@@ -568,6 +589,7 @@ body {
 .glassy-textbox {
   width: 700px;
   min-height: 50px;
+  /* max-height: ; */
   padding: 10px 20px;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.2);
@@ -586,4 +608,20 @@ body {
 .glassy-textbox:hover {
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 6px 35px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 480px) {
+
+  body {
+    background-color: #101321;
+  }
+  h1 {
+      font-size: clamp(1.2rem, 5vw, 1.5rem);
+      top: 1vh;
+  }
+  .video-background {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
