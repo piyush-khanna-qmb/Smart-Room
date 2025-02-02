@@ -4,6 +4,7 @@ const app= express()
 const bodyParser= require("body-parser")
 const mongoose= require('mongoose')
 const prompt = require("prompt-sync")();
+const axios = require("axios");
 
 app.use(bodyParser.json())
 app.set('view engine', 'ejs')
@@ -26,10 +27,6 @@ app.get("/", function(req, res) {
     // console.log("Home request initiated");
     // res.send("Maamla sahi hai!")
     res.render("index.ejs")
-})
-
-app.get("/getWifis", function (req, res) {
-    return res.status(200).json({ssids: ["AirFiber-R6JMuy", "vivo 1820"], passwords: ["3sCtsd4nyySfch7H", "khannaHotpot"]});
 })
 
 const getAllEntities = async () => {
@@ -128,12 +125,31 @@ app.post("/add-new-device", function(req, res) {
     });
 })
 
+
+const BOT_TOKEN = "7921499858:AAEjfiXxpY34oyxZ_D_OlVwewra0L09Y9aY";  // Replace with your Telegram bot token
+const CHAT_ID = "7332331535";      // Replace with your Telegram chat ID
+
+// Function to send message to Telegram
+const sendTelegramMessage = async (message) => {
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    try {
+        await axios.post(url, {
+            chat_id: CHAT_ID,
+            text: message,
+        });
+        // console.log("Message sent to Telegram");
+    } catch (error) {
+        console.error("Error sending message:", error.response.data);
+    }
+};
+
 app.post("/intrusion-alert", function(req, res) {
   var data= req.body;
-  var timeOfIntrusion= data.source;
+  var instrusionSource= data.source;
   const options = { timeZone: 'Asia/Kolkata', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' };
   const currentTime = new Date().toLocaleTimeString('en-IN', options);
-  console.log("Someone intruded in the territory of: "+timeOfIntrusion+ "at: "+currentTime);
+  // console.log("Someone intruded in the territory of: "+instrusionSource+ "at: "+currentTime);
+  sendTelegramMessage("Someone intruded in the territory of: "+instrusionSource+ " at: "+currentTime);
   res.send("ok");
 })
 
